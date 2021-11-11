@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Text, Image } from 'react-native';
-import Constants from 'expo-constants';
+import { Image } from 'react-native';
+import Text from './Text';
 import theme from '../theme';
 import { StyleSheet } from 'react-native';
 

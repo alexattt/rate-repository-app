@@ -1,30 +1,38 @@
 import React from 'react';
-import { View, StyleSheet, Pressable } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { Link } from 'react-router-native';
+import { ScrollView } from 'react-native';
 import Text from './Text';
 import Constants from 'expo-constants';
 import theme from '../theme';
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: Constants.statusBarHeight,
+    flexDirection: 'row',
+    paddingTop: 60,
     paddingBottom: 15,
     backgroundColor: theme.colors.textPrimary,
   },
+  linkElement: {
+    paddingLeft: 20
+  },
   text: {
-    color: 'white'
+    color: 'white',
+    fontFamily: theme.fonts.main
   }
 });
-
-const onPressFunction = () => {
-  return "Pressed";
-}
 
 const AppBar = () => {
   return (
     <View style={styles.container}>
-      <Pressable onPress={onPressFunction}>
-        <Text style={styles.text}>Repositories</Text>
-      </Pressable>
+      <ScrollView horizontal>
+        <Link style={styles.linkElement} to="/">
+          <Text style={styles.text}>Repositories</Text>
+        </Link>
+        <Link style={styles.linkElement} to="/signin">
+          <Text style={styles.text}>Sign In</Text>
+        </Link>
+      </ScrollView>
     </View>
     );
 };
