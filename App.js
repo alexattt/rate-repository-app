@@ -5,6 +5,10 @@ import { NativeRouter } from 'react-router-native';
 import { useFonts } from 'expo-font';
 import { Roboto_400Regular } from '@expo-google-fonts/roboto';
 import Text from './src/components/Text';
+import createApolloClient from './src/utils/apolloClient';
+import { ApolloProvider } from '@apollo/client';
+
+const apolloClient = createApolloClient();
 
 const App = () => {
   let [fontsLoaded] = useFonts({
@@ -18,7 +22,9 @@ const App = () => {
     return (
       <>
         <NativeRouter>
-          <Main />
+          <ApolloProvider client={apolloClient}>
+            <Main />
+          </ApolloProvider>
         </NativeRouter>
         <StatusBar style="auto" />
       </>
