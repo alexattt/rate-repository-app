@@ -11,3 +11,12 @@ export const GET_REPOSITORIES = gql`
     }
   }
 `;
+
+export const USER_AUTH_STATUS = gql`
+  {
+    authorizedUser {
+      id
+      username
+    }
+  }
+`;

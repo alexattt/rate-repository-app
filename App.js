@@ -7,8 +7,12 @@ import { Roboto_400Regular } from '@expo-google-fonts/roboto';
 import Text from './src/components/Text';
 import createApolloClient from './src/utils/apolloClient';
 import { ApolloProvider } from '@apollo/client';
+import AuthStorage from './src/utils/authStorage';
+import AuthStorageContext from './src/context/AuthStorageContext';
 
-const apolloClient = createApolloClient();
+
+const authStorage = new AuthStorage();
+const apolloClient = createApolloClient(authStorage);
 
 const App = () => {
   let [fontsLoaded] = useFonts({
@@ -23,7 +27,9 @@ const App = () => {
       <>
         <NativeRouter>
           <ApolloProvider client={apolloClient}>
-            <Main />
+            <AuthStorageContext.Provider value={authStorage}>
+              <Main />
+            </AuthStorageContext.Provider>
           </ApolloProvider>
         </NativeRouter>
         <StatusBar style="auto" />

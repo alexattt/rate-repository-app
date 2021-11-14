@@ -3,10 +3,12 @@ import { View } from 'react-native';
 import { StyleSheet } from 'react-native';
 import FormikTextInput from './FormikTextInput';
 import theme from '../theme';
+import { useState } from 'react';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { Pressable } from 'react-native';
 import Text from './Text';
+import { useSignIn } from '../hooks/useSignIn';
 
 const styles = StyleSheet.create({
   formView: {
@@ -38,26 +40,52 @@ const initialValues = {
   password: '',
 };
 
-const SignInForm = ({ onSubmit }) => {
+const SignInForm = ({ onSubmit, error }) => {
   return (
-    <View style={styles.formView}>
-      <FormikTextInput name="username" placeholder="Username" />
-      <FormikTextInput secureTextEntry={true} name="password" placeholder="Password" />
-      <Pressable style={styles.signInBtn} onPress={onSubmit}>
-        <Text style={{color: 'white', textAlign: 'center', fontWeight: '700'}}>Sign In</Text>
-      </Pressable>
+    <View>
+      {error == ''
+        ? 
+        <View style={styles.formView}>
+          <FormikTextInput name="username" placeholder="Username" />
+          <FormikTextInput secureTextEntry={true} name="password" placeholder="Password" />
+          <Pressable style={styles.signInBtn} onPress={onSubmit}>
+            <Text style={{color: 'white', textAlign: 'center', fontWeight: '700'}}>Sign In</Text>
+          </Pressable>
+        </View>
+        :
+        <View style={styles.formView}>
+          <FormikTextInput name="username" placeholder="Username" />
+          <FormikTextInput secureTextEntry={true} name="password" placeholder="Password" />
+          <Text style={{color: theme.colors.errorColor}}>Invalid username or password!</Text>
+          <Pressable style={styles.signInBtn} onPress={onSubmit}>
+            <Text style={{color: 'white', textAlign: 'center', fontWeight: '700'}}>Sign In</Text>
+          </Pressable>
+        </View>
+      }
     </View>
   );
 };
 
 const SignIn = () => {
-  const onSubmit = values => {
-    console.log(values);
+  const [signInError, setError] = useState('');
+  const [signIn] = useSignIn();
+  
+  const onSubmit = async (values) => {
+    const password = values["password"]
+    const username = values["username"]
+  
+    try {
+      const data = await signIn({username, password});
+      console.log(data.data.authorize);
+    }
+    catch(err) {
+      setError(err);
+    }
   };
 
   return (
     <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={formValidationSchema}>
-      {({ handleSubmit }) => <SignInForm onSubmit={handleSubmit} />}
+      {({ handleSubmit }) => <SignInForm onSubmit={handleSubmit} error={signInError}/>}
     </Formik>
   );
 };
