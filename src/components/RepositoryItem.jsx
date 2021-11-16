@@ -83,28 +83,28 @@ const RepositoryItem = ({repoItem}) => {
           }}
         />
         <View style={styles.mainInfo}>
-          <Text style={styles.mainTitle}>{repoItem["fullName"]}</Text>
-          <Text style={styles.description}>{repoItem["description"]}</Text>
+          <Text testID="fullName" style={styles.mainTitle}>{repoItem["fullName"]}</Text>
+          <Text testID="description" style={styles.description}>{repoItem["description"]}</Text>
           <View style={styles.languageTag}>
-            <Text style={{color: 'white'}}>{repoItem["language"]}</Text>
+            <Text testID="language" style={{color: 'white'}}>{repoItem["language"]}</Text>
           </View>
         </View>
       </View>
       <View style={styles.statsInfo}>
         <View style={styles.statsElement}>
-          <Text style={{fontWeight: '700', paddingBottom: 5}}>{starCount}</Text>
+          <Text testID="starCount" style={{fontWeight: '700', paddingBottom: 5}}>{starCount}</Text>
           <Text style={{color: theme.colors.textSecondary}}>Stars</Text>
         </View>
         <View style={styles.statsElement}>
-          <Text style={{fontWeight: '700', paddingBottom: 5}}>{forkCount}</Text>
+          <Text testID="forkCount" style={{fontWeight: '700', paddingBottom: 5}}>{forkCount}</Text>
           <Text style={{color: theme.colors.textSecondary}}>Forks</Text>
         </View>
         <View style={styles.statsElement}>
-          <Text style={{fontWeight: '700', paddingBottom: 5}}>{reviewCount}</Text>
+          <Text testID="reviewCount" style={{fontWeight: '700', paddingBottom: 5}}>{reviewCount}</Text>
           <Text style={{color: theme.colors.textSecondary}}>Reviews</Text>
         </View>
         <View style={styles.statsElement}>
-          <Text style={{fontWeight: '700', paddingBottom: 5}}>{ratingAverage}</Text>
+          <Text testID="ratingAvg" style={{fontWeight: '700', paddingBottom: 5}}>{ratingAverage}</Text>
           <Text style={{color: theme.colors.textSecondary}}>Ratings</Text>
         </View>
       </View>

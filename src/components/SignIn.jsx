@@ -40,15 +40,15 @@ const initialValues = {
   password: '',
 };
 
-const SignInForm = ({ onSubmit, error }) => {
+export const SignInForm = ({ onSubmit, error }) => {
   return (
     <View>
       {error == ''
         ? 
         <View style={styles.formView}>
-          <FormikTextInput name="username" placeholder="Username" />
-          <FormikTextInput secureTextEntry={true} name="password" placeholder="Password" />
-          <Pressable style={styles.signInBtn} onPress={onSubmit}>
+          <FormikTextInput testID="username" name="username" placeholder="Username" />
+          <FormikTextInput testID="password" secureTextEntry={true} name="password" placeholder="Password" />
+          <Pressable testID="submitButton" style={styles.signInBtn} onPress={onSubmit}>
             <Text style={{color: 'white', textAlign: 'center', fontWeight: '700'}}>Sign In</Text>
           </Pressable>
         </View>
@@ -65,6 +65,14 @@ const SignInForm = ({ onSubmit, error }) => {
     </View>
   );
 };
+
+export const SignInContainer = ({ onSubmit, signInError }) => {
+  return (
+    <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={formValidationSchema}>
+      {({ handleSubmit }) => <SignInForm onSubmit={handleSubmit} error={signInError}/>}
+    </Formik>
+  )
+}
 
 const SignIn = () => {
   const [signInError, setError] = useState('');
@@ -84,9 +92,7 @@ const SignIn = () => {
   };
 
   return (
-    <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={formValidationSchema}>
-      {({ handleSubmit }) => <SignInForm onSubmit={handleSubmit} error={signInError}/>}
-    </Formik>
+    <SignInContainer onSubmit={onSubmit} signInError={signInError}/>
   );
 };
 
