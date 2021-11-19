@@ -49,6 +49,14 @@ const AppBar = () => {
         </Link>
         {data?.authorizedUser == null 
           ? 
+          null
+          :
+          <Link style={styles.linkElement} to="/createreview">
+            <Text style={styles.text}>Create a review</Text>
+          </Link>
+        }
+        {data?.authorizedUser == null 
+          ? 
           <Link style={styles.linkElement} to="/signin">
             <Text style={styles.text}>Sign In</Text>
           </Link>
@@ -56,6 +64,14 @@ const AppBar = () => {
           <Text style={styles.linkElement} onPress={signOut}>
             <Text style={styles.text}>Sign Out</Text>
           </Text>
+        }
+        {data?.authorizedUser == null 
+          ? 
+          <Link style={styles.linkElement} to="/signup">
+            <Text style={styles.text}>Sign Up</Text>
+          </Link>
+          :
+          null
         }
       </ScrollView>
     </View>
