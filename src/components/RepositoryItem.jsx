@@ -2,13 +2,12 @@ import React from 'react';
 import { ActivityIndicator, TouchableOpacity, Pressable, View, FlatList } from 'react-native';
 import { Image } from 'react-native';
 import { useParams } from 'react-router-native';
-import { useQuery } from '@apollo/client';
 import Text from './Text';
 import theme from '../theme';
 import { StyleSheet } from 'react-native';
 import { useNavigate } from 'react-router-native';
-import { SINGLE_REPO } from '../graphql/queries';
 import * as Linking from 'expo-linking';
+import useRepoReviews from '../hooks/useRepoReviews';
 
 const styles = StyleSheet.create({
   mainContainer: {
@@ -173,10 +172,8 @@ const ReviewItem = ({ review }) => {
 
 export const SingleRepoView = () => {
   const id = useParams().id;
-  const { data, loading } = useQuery(SINGLE_REPO, {
-    fetchPolicy: 'cache-and-network',
-    variables: { id }
-  });
+
+  const {data, fetchMore, loading} = useRepoReviews({id:id});
 
   if (loading) {
     return (
@@ -215,6 +212,11 @@ export const SingleRepoView = () => {
     const handleOpenWithLinking = () => {
       Linking.openURL(repoItem["url"]);
     }
+
+    const onEndReach = () => {
+      console.log("end reached")
+      fetchMore();
+    };
   
     return (
       <View style={styles.mainContainer}>
@@ -259,6 +261,8 @@ export const SingleRepoView = () => {
           renderItem={({ item }) => <ReviewItem review={item} />}
           keyExtractor={({ id }) => id}
           ItemSeparatorComponent={ItemSeparator}
+          onEndReached={onEndReach}
+          onEndReachedThreshold={1}
         />
       </View>
     )

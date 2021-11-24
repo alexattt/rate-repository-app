@@ -47,7 +47,7 @@ export class RepositoryListContainer extends React.Component {
   };
 
   render() {
-    const {repositories} = this.props;
+    const {repositories, onEndReach} = this.props;
 
     const repositoryNodes = repositories
     ? repositories.edges.map((edge) => edge.node)
@@ -60,6 +60,8 @@ export class RepositoryListContainer extends React.Component {
           ItemSeparatorComponent={ItemSeparator}
           renderItem={({item}) => <RepositoryItem repoItem={item}/>}
           ListHeaderComponent={this.renderHeader}
+          onEndReached={onEndReach}
+          onEndReachedThreshold={0.5}
         /> 
       </View>
     );
@@ -89,8 +91,11 @@ const RepositoryList = () => {
     orderBy = 'CREATED_AT';
     orderDirection = 'DESC';
   }
+  const {data, fetchMore, loading} = useRepositories({searchKeyword:searchKeyword, orderBy:orderBy, orderDirection:orderDirection});
 
-  const {data, loading} = useRepositories(searchKeyword, orderBy, orderDirection);
+  const onEndReach = () => {
+    fetchMore();
+  };
 
   if (loading) {
     return (
@@ -100,7 +105,7 @@ const RepositoryList = () => {
     )
   }
 
-  return <RepositoryListContainer repositories={data.repositories} sortOrder={sortOrder} setSortOrder={setSortOrder} searchValue={searchValue} setSearchValue={setSearchValue}/>;
+  return <RepositoryListContainer repositories={data.repositories} sortOrder={sortOrder} setSortOrder={setSortOrder} searchValue={searchValue} setSearchValue={setSearchValue} onEndReach={onEndReach}/>;
 };
 
 export default RepositoryList;
